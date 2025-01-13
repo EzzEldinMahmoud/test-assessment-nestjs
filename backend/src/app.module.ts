@@ -17,7 +17,8 @@ import { DatabaseModule } from './modules/database/database.module';
             POSTGRES_DB: Joi.string().required(),
             PORT: Joi.number(),
             ENIVERONMENT: Joi.string().required(),
-            encryption: Joi.string().required()
+            JWT_SECRET: Joi.string().required(),
+            JWT_EXPIRATION_TIME: Joi.string().required(),
         })
     }), DatabaseModule],
     controllers: [AppController],
