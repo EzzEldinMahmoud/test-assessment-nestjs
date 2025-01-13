@@ -10,6 +10,7 @@ exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
+const user_entity_1 = require("../../Entities/user.entity");
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;
@@ -27,7 +28,7 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                     password: configService.get('POSTGRES_PASSWORD'),
                     database: configService.get('POSTGRES_DB'),
                     entities: [
-                        __dirname + '/../**/*.entity.ts',
+                        user_entity_1.default
                     ],
                     synchronize: true,
                 })

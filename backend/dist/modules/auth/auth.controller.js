@@ -17,19 +17,19 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.services/auth.service");
 const RegisterUserDTO_1 = require("../../DTO/RegisterUserDTO");
 const localAuth_guard_1 = require("./guard/localAuth.guard");
+const jwt_guard_1 = require("./guard/jwt.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    register(user) {
-        this.authService.register(user).then((user) => {
-            return user;
-        });
+    async register(user) {
+        return await this.authService.register(user);
     }
-    login(request, response) {
-        const { user } = request;
-        const cookie = this.authService.getCookieWithJwtToken(user.id);
-        return cookie;
+    async login(user) {
+        return await this.authService.login(user.email, user.password);
+    }
+    async getallUsers() {
+        return await this.authService.alluser();
     }
 };
 exports.AuthController = AuthController;
@@ -38,18 +38,24 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [RegisterUserDTO_1.default]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(localAuth_guard_1.LocalAuthGuard),
     (0, common_1.Post)("login"),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Response]),
-    __metadata("design:returntype", String)
+    __metadata("design:paramtypes", [RegisterUserDTO_1.default]),
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtStrategy),
+    (0, common_1.Get)("user/all"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getallUsers", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

@@ -5,22 +5,29 @@ import RegisterUserDTO from 'src/DTO/RegisterUserDTO';
 import LoginUserDTO from 'src/DTO/loginUserDTO';
 import { LocalAuthGuard } from './guard/localAuth.guard';
 import RequestWithUser from 'src/interfaces/requestWithUser.interface';
+import { JwtStrategy } from './guard/jwt.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService){}
   @Post("register")
-  register(@Body() user: RegisterUserDTO) {
-    this.authService.register(user).then((user)=>{
-        return user;
-    });
+  async register(@Body() user: RegisterUserDTO) {
+    return  await this.authService.register(user);
   }
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  login(@Req() request: RequestWithUser, @Res() response: Response): string {
-      const {user} = request;
-      const cookie = this.authService.getCookieWithJwtToken(user.id);
-      return cookie;
+  async login(@Body() user: RegisterUserDTO) {
+      return  await this.authService.login(user.email,user.password);
   }
+
+
+
+  @UseGuards(JwtStrategy)
+  @Get("user/all")
+  async getallUsers() {
+      return await this.authService.alluser();
+  }
+
 }

@@ -1,8 +1,7 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import User from '../../../Entities/user.entity';
+import { AuthService } from '../auth.services/auth.service';
 /**
  * NestJS documentation suggests using the Passport library 
  * and provides us with the means to do so. Passport 

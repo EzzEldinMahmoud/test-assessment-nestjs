@@ -13,7 +13,7 @@ const app_service_1 = require("./app.service");
 const product_module_1 = require("./modules/product/product.module");
 const auth_module_1 = require("./modules/auth/auth.module");
 const config_1 = require("@nestjs/config");
-const joi_1 = require("@hapi/joi");
+const Joi = require("@hapi/joi");
 const database_module_1 = require("./modules/database/database.module");
 let AppModule = class AppModule {
 };
@@ -21,16 +21,16 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [product_module_1.productModule, auth_module_1.AuthModule, config_1.ConfigModule.forRoot({
-                validationSchema: joi_1.default.object({
-                    POSTGRES_HOST: joi_1.default.string().required(),
-                    POSTGRES_PORT: joi_1.default.number().required(),
-                    POSTGRES_USER: joi_1.default.string().required(),
-                    POSTGRES_PASSWORD: joi_1.default.string().required(),
-                    POSTGRES_DB: joi_1.default.string().required(),
-                    PORT: joi_1.default.number(),
-                    ENIVERONMENT: joi_1.default.string().required(),
-                    JWT_SECRET: joi_1.default.string().required(),
-                    JWT_EXPIRATION_TIME: joi_1.default.string().required(),
+                validationSchema: Joi.object({
+                    POSTGRES_HOST: Joi.string().required(),
+                    POSTGRES_PORT: Joi.number().required(),
+                    POSTGRES_USER: Joi.string().required(),
+                    POSTGRES_PASSWORD: Joi.string().required(),
+                    POSTGRES_DB: Joi.string().required(),
+                    PORT: Joi.number(),
+                    ENIVERONMENT: Joi.string().required(),
+                    JWT_SECRET: Joi.string().required(),
+                    JWT_EXPIRATION_TIME: Joi.string().required(),
                 })
             }), database_module_1.DatabaseModule],
         controllers: [app_controller_1.AppController],

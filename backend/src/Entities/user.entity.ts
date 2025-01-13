@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity()
 class UserEntity {

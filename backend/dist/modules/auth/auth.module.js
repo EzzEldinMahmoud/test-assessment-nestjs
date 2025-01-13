@@ -13,9 +13,11 @@ const auth_service_1 = require("./auth.services/auth.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("../../Entities/user.entity");
 const passport_1 = require("@nestjs/passport");
-const local_strategy_1 = require("./auth.services/local.strategy");
+const local_strategy_1 = require("./guard/local.strategy");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
+const user_service_1 = require("./auth.services/user.service");
+const jwt_guard_1 = require("./guard/jwt.guard");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -32,7 +34,7 @@ exports.AuthModule = AuthModule = __decorate([
                 }),
             }),],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy]
+        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, config_1.ConfigService, user_service_1.UserService, jwt_guard_1.JwtStrategy]
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

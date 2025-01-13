@@ -1,4 +1,4 @@
 
-enum PostgresErrorCode {
+export enum PostgresErrorCode {
     UniqueViolation = '23505'
   }
