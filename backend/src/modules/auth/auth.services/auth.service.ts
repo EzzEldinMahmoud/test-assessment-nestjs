@@ -1,13 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { User } from '../../../interfaces/Auth.interface';
 import * as bcrypt from "bcrypt";
-import RegisterUserDTO from 'src/DTO/RegisterUserDTO';
+import RegisterUserDTO from '../../../DTO/RegisterUserDTO';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { TokenPayload } from 'src/interfaces/tokenPayload.interface';
-import { PostgresErrorCode } from 'src/enums/postgresql';
-import { userRoles } from 'src/enums/userRolesEnum';
+import { TokenPayload } from '../../../interfaces/tokenPayload.interface';
+import { PostgresErrorCode } from '../../../enums/postgresql';
 import { UserService } from './user.service';
+import LoginUserDTO from '../../../DTO/loginUserDTO';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +15,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly configService: ConfigService
     ){}
-    async register(user: RegisterUserDTO): Promise<User> {
+    async register(user: RegisterUserDTO): Promise<RegisterUserDTO> {
         try {
             const newUser = await this.userService.createUser(user);
             return newUser;
@@ -42,18 +41,19 @@ export class AuthService {
             plainTextPassword,
             hashedPassword
         );
+        
         if (!isPasswordMatching) {
             throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
         }
     }
-    async login(email: string, password: string): Promise<string> {
+    async login(userData:LoginUserDTO): Promise<string> {
         try {
-            const user = await this.userService.findUserByEmail(email);
-            if (user) {
+            const singleuser: LoginUserDTO = await this.userService.findUserByEmail(userData.email);
+            if (singleuser) {
                 // comparing the request password to hashed db password.
-                await this.verifyPassword(password,user.password);
+                await this.verifyPassword(userData.password,singleuser.password);
                 // need to return access token instead of user.
-                return this.getCookieWithJwtToken(user.id).auth;
+                return this.getCookieWithJwtToken(singleuser?.id).auth;
             }
         } catch(e) {
             throw new HttpException('Wrong credentials provided' + e, HttpStatus.BAD_REQUEST);

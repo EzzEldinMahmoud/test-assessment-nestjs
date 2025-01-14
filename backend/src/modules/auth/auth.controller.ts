@@ -1,14 +1,15 @@
-import { Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, SerializeOptions, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.services/auth.service';
-import { User } from 'src/interfaces/Auth.interface';
-import RegisterUserDTO from 'src/DTO/RegisterUserDTO';
-import LoginUserDTO from 'src/DTO/loginUserDTO';
-import RequestWithUser from 'src/interfaces/requestWithUser.interface';
-import { JwtStrategy } from './guard/JwtStrategy.guard';
+
+import RegisterUserDTO from '../../DTO/RegisterUserDTO';
 import { AuthGuard } from '@nestjs/passport';
+import LoginUserDTO from '../../DTO/loginUserDTO';
 
 
 @Controller('auth')
+@SerializeOptions({
+  strategy: 'excludeAll'
+})
 export class AuthController {
   constructor(private authService: AuthService){}
   @Post("register")
@@ -18,8 +19,8 @@ export class AuthController {
   @HttpCode(200)
   @UseGuards(AuthGuard("local"))
   @Post("login")
-  async login(@Body() user: RegisterUserDTO) {
-      return  await this.authService.login(user.email,user.password);
+  async login(@Body() user:LoginUserDTO) {
+      return  await this.authService.login(user);
   }
 
 

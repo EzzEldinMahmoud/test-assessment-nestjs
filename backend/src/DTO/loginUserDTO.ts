@@ -1,4 +1,12 @@
+import { IsEmail, IsString, IsNotEmpty, MinLength } from 'class-validator';
+
 export default class  LoginUserDTO {
+    id?: string;
+    @IsString()
+    @IsNotEmpty()
+    @IsEmail()
     email: string;
-    password: string
+    @IsString()
+    @IsNotEmpty()
+    password: string;
 }
