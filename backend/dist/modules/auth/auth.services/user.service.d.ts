@@ -8,5 +8,4 @@ export declare class UserService {
     createUser(user: RegisterUserDTO): Promise<User>;
     findUserById(id: string): Promise<UserEntity>;
     findUserByEmail(email: string): Promise<User>;
-    getallUser(): Promise<UserEntity[]>;
 }

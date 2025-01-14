@@ -34,9 +34,5 @@ export class UserService {
         if(user) return user;
         else throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
     }
-    async getallUser() {
-        const userlist = await this.usersRepository.find();
-        return userlist;
-    }
     
     }

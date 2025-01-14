@@ -61,9 +61,6 @@ export class AuthService {
     }
 
 
-    async alluser() {
-        return await this.userService.getallUser();
-    }
 
 
 

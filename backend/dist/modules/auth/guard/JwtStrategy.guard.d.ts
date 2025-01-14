@@ -1,5 +1,5 @@
 import { ConfigService } from "@nestjs/config";
-import { Strategy } from "passport-local";
+import { Strategy } from "passport-jwt";
 import { TokenPayload } from "src/interfaces/tokenPayload.interface";
 import { UserService } from "../auth.services/user.service";
 declare const JwtStrategy_base: new (...args: any[]) => Strategy;

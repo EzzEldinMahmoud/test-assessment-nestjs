@@ -6,5 +6,4 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(user: RegisterUserDTO): Promise<User>;
     login(user: RegisterUserDTO): Promise<string>;
-    getallUsers(): Promise<import("../../Entities/user.entity").default[]>;
 }

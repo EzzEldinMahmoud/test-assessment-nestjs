@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt } from "passport-jwt";
-import { Strategy } from "passport-local";
+import { Strategy } from "passport-jwt";
 import { TokenPayload } from "src/interfaces/tokenPayload.interface";
 import { UserService } from "../auth.services/user.service";
 
@@ -13,12 +13,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly userService: UserService,
   ) {
     super({
-        jwtFromRequest: ExtractJwt.fromHeader("Auth"),
+        jwtFromRequest: ExtractJwt.fromHeader("access_token"),
         secretOrKey: configService.get('JWT_SECRET')
     });
   }
  
   async validate(payload: TokenPayload) {
-    return this.userService.findUserById(payload.userId);
+    return await this.userService.findUserById(payload.userId);
+
   }
 }

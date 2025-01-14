@@ -17,7 +17,7 @@ const local_strategy_1 = require("./guard/local.strategy");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const user_service_1 = require("./auth.services/user.service");
-const jwt_guard_1 = require("./guard/jwt.guard");
+const JwtStrategy_guard_1 = require("./guard/JwtStrategy.guard");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -34,7 +34,7 @@ exports.AuthModule = AuthModule = __decorate([
                 }),
             }),],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, config_1.ConfigService, user_service_1.UserService, jwt_guard_1.JwtStrategy]
+        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, config_1.ConfigService, user_service_1.UserService, JwtStrategy_guard_1.JwtStrategy]
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

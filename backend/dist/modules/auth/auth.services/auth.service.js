@@ -62,9 +62,6 @@ let AuthService = class AuthService {
             throw new common_1.HttpException('Wrong credentials provided' + e, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async alluser() {
-        return await this.userService.getallUser();
-    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

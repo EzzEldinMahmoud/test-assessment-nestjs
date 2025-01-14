@@ -16,5 +16,4 @@ export declare class AuthService {
     };
     verifyPassword(plainTextPassword: string, hashedPassword: string): Promise<void>;
     login(email: string, password: string): Promise<string>;
-    alluser(): Promise<import("../../../Entities/user.entity").default[]>;
 }

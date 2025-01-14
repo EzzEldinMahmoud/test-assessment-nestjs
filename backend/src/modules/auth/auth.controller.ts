@@ -3,10 +3,10 @@ import { AuthService } from './auth.services/auth.service';
 import { User } from 'src/interfaces/Auth.interface';
 import RegisterUserDTO from 'src/DTO/RegisterUserDTO';
 import LoginUserDTO from 'src/DTO/loginUserDTO';
-import { LocalAuthGuard } from './guard/localAuth.guard';
 import RequestWithUser from 'src/interfaces/requestWithUser.interface';
-import { JwtStrategy } from './guard/jwt.guard';
+import { JwtStrategy } from './guard/JwtStrategy.guard';
 import { AuthGuard } from '@nestjs/passport';
+
 
 @Controller('auth')
 export class AuthController {
@@ -16,18 +16,11 @@ export class AuthController {
     return  await this.authService.register(user);
   }
   @HttpCode(200)
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(AuthGuard("local"))
   @Post("login")
   async login(@Body() user: RegisterUserDTO) {
       return  await this.authService.login(user.email,user.password);
   }
 
-
-
-  @UseGuards(JwtStrategy)
-  @Get("user/all")
-  async getallUsers() {
-      return await this.authService.alluser();
-  }
 
 }

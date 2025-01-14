@@ -48,10 +48,6 @@ let UserService = class UserService {
         else
             throw new common_1.HttpException('User with this id does not exist', common_1.HttpStatus.NOT_FOUND);
     }
-    async getallUser() {
-        const userlist = await this.usersRepository.find();
-        return userlist;
-    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

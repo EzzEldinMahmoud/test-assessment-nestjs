@@ -9,30 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JwtStrategy = void 0;
+exports.AdminRoleStrategy = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
-const passport_local_1 = require("passport-local");
-const user_service_1 = require("../auth.services/user.service");
-let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
+const passport_jwt_2 = require("passport-jwt");
+const user_service_1 = require("../../auth/auth.services/user.service");
+const userRolesEnum_1 = require("../../../enums/userRolesEnum");
+let AdminRoleStrategy = class AdminRoleStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_2.Strategy) {
     constructor(configService, userService) {
         super({
-            jwtFromRequest: passport_jwt_1.ExtractJwt.fromHeader("Auth"),
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromHeader("access_token"),
             secretOrKey: configService.get('JWT_SECRET')
         });
         this.configService = configService;
         this.userService = userService;
     }
     async validate(payload) {
-        return this.userService.findUserById(payload.userId);
+        const user = await this.userService.findUserById(payload.userId);
+        if (user.role === userRolesEnum_1.userRoles.admin.toString()) {
+            return user.id;
+        }
+        else if (user.role !== userRolesEnum_1.userRoles.admin.toString()) {
+            return common_1.UnauthorizedException;
+        }
+        ;
     }
 };
-exports.JwtStrategy = JwtStrategy;
-exports.JwtStrategy = JwtStrategy = __decorate([
+exports.AdminRoleStrategy = AdminRoleStrategy;
+exports.AdminRoleStrategy = AdminRoleStrategy = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [config_1.ConfigService,
         user_service_1.UserService])
-], JwtStrategy);
-//# sourceMappingURL=jwt.guard.js.map
+], AdminRoleStrategy);
+//# sourceMappingURL=roles.guard.js.map
