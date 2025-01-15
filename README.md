@@ -1,7 +1,7 @@
-# Project description.
+# Project description
 this project is a Product management Application built with nestjs and typeORM and Postgresql database.
 
-## Setup instructions.
+## Setup instructions
 - first clone the repo 
 - cd docker 
 - create docker.env file and put these.
@@ -31,6 +31,6 @@ this project is a Product management Application built with nestjs and typeORM a
 - now you can run the application by
     ```npm start``` 
 
-## How to run the tests.
+## How to run the tests
 ```npm test```
 - Example	API	usage
