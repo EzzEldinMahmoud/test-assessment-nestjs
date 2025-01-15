@@ -64,7 +64,6 @@ Here’s an example of how to use the `register` and `login` endpoints defined i
   "role":"1395"
 }
 ```
-(*Adjust `RegisterUserDTO` properties as needed based on your DTO definition.*)
 
 **Example curl Command:**
 ```bash
@@ -112,7 +111,6 @@ curl -X POST http://localhost:3000/auth/register \
   "password": "securePassword123"
 }
 ```
-(*Adjust `LoginUserDTO` properties as needed based on your DTO definition.*)
 
 **Example curl Command:**
 ```bash
