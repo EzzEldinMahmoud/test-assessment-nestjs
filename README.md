@@ -31,6 +31,11 @@ this project is a Product management Application built with nestjs and typeORM a
 - now you can run the application by
     ```npm start``` 
 
+- to access swagger UI go to:
+    ```http://localhost:5000/api/```
+    or if you didn't add PORT to the env file for backend
+    ```http://localhost:3000/api/```
+
 ## How to run the tests
 ```npm test```
 
