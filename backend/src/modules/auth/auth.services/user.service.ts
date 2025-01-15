@@ -24,6 +24,8 @@ export class UserService {
         const newUser = this.usersRepository.create({ ...user, password: hashedpassword, createdAt: toDayDateTime,updatedAt: toDayDateTime });
         await this.usersRepository.save(newUser);
         newUser.password = undefined;
+        if(newUser.role !== userRoles.admin.toString())  newUser.role = "user";
+        else if(newUser.role === userRoles.admin.toString())  newUser.role = "admin";
         return newUser;
     }
     async findUserById(id: string) {

@@ -70,20 +70,21 @@ Here’s an example of how to use the `register` and `login` endpoints defined i
 curl -X POST http://localhost:3000/auth/register \
 -H "Content-Type: application/json" \
 -d '{
-  "email": "testadmin1@example.com",
-  "password": "securePassword123",
-	"role":"1395"
+    "email": "testadmin1@example.com",
+    "password": "securePassword123",
+    "role":"1395"
 }'
 ```
 
 **Expected Response:**
 - If registration is successful:
   ```json
-  {
-    "email": "testuser@example.com",
-    "username": "TestUser",
-    "id": "user-id-generated-by-db"
-  }
+    {
+        "email": "testadmin12@example.com",
+        "role": "admin",
+        "createdAt": "2025-01-15T17:42:56.360Z",
+        "updatedAt": "2025-01-15T17:42:56.360Z"
+    }
   ```
 - If the email is already registered:
   ```json
@@ -148,14 +149,27 @@ curl -X POST http://localhost:3000/auth/login \
    Make sure `RegisterUserDTO` and `LoginUserDTO` match the request payload structure. For example:
    ```typescript
    export default class RegisterUserDTO {
-       email: string;
-       password: string;
-       username: string;
+        @IsString()
+        @IsNotEmpty()
+        @IsEmail()
+        email: string;
+        @IsString()
+        @IsNotEmpty()
+        password: string;
+        @IsString()
+        @IsNotEmpty()
+        role?: string
    }
 
    export default class LoginUserDTO {
-       email: string;
-       password: string;
+        id?: string;
+        @IsString()
+        @IsNotEmpty()
+        @IsEmail()
+        email: string;
+        @IsString()
+        @IsNotEmpty()
+        password: string;
    }
    ```
 
@@ -188,6 +202,7 @@ curl -X GET http://localhost:3000/Products
     "id": "1",
     "name": "Laptop A",
     "price": 1500,
+    "stock": 2,
     "description": "High-performance laptop",
     "createdAt": "2025-01-01T10:00:00.000Z",
     "updatedAt": "2025-01-01T10:00:00.000Z"
@@ -196,6 +211,7 @@ curl -X GET http://localhost:3000/Products
     "id": "2",
     "name": "Phone B",
     "price": 800,
+    "stock": 2,
     "description": "Latest smartphone",
     "createdAt": "2025-01-02T12:00:00.000Z",
     "updatedAt": "2025-01-02T12:00:00.000Z"
@@ -225,6 +241,7 @@ curl -X GET http://localhost:3000/Products/1
     "id": "1",
     "name": "Laptop A",
     "price": 1500,
+    "stock": 2,
     "description": "High-performance laptop",
     "createdAt": "2025-01-01T10:00:00.000Z",
     "updatedAt": "2025-01-01T10:00:00.000Z"
@@ -234,7 +251,7 @@ curl -X GET http://localhost:3000/Products/1
   ```json
   {
     "statusCode": 404,
-    "message": "Not Found"
+    "message": "Product Not Found"
   }
   ```
 
@@ -258,6 +275,7 @@ curl -X GET http://localhost:3000/Products/1
 {
   "name": "New Product",
   "price": 1200,
+  "stock": 2,
   "description": "Description of the product"
 }
 ```
@@ -270,6 +288,7 @@ curl -X POST http://localhost:3000/Products \
 -d '{
   "name": "New Product",
   "price": 1200,
+  "stock": 2,
   "description": "Description of the product"
 }'
 ```
@@ -281,6 +300,7 @@ curl -X POST http://localhost:3000/Products \
     "id": "3",
     "name": "New Product",
     "price": 1200,
+    "stock": 2,
     "description": "Description of the product",
     "createdAt": "2025-01-15T10:00:00.000Z",
     "updatedAt": "2025-01-15T10:00:00.000Z"
@@ -314,6 +334,7 @@ curl -X POST http://localhost:3000/Products \
 {
   "name": "Updated Product",
   "price": 1100,
+  "stock": 34,
   "description": "Updated description of the product"
 }
 ```
@@ -326,6 +347,7 @@ curl -X PUT http://localhost:3000/Products/1 \
 -d '{
   "name": "Updated Product",
   "price": 1100,
+  "stock": 34,
   "description": "Updated description of the product"
 }'
 ```
@@ -337,6 +359,7 @@ curl -X PUT http://localhost:3000/Products/1 \
     "id": "1",
     "name": "Updated Product",
     "price": 1100,
+    "stock": 34,
     "description": "Updated description of the product",
     "createdAt": "2025-01-01T10:00:00.000Z",
     "updatedAt": "2025-01-15T11:00:00.000Z"

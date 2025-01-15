@@ -50,12 +50,13 @@ export class ProductService {
 
   //admin 
   async deleteProductById(id:string) {
-    await this.ProductRepository.delete({id:id});
     const singleProduct = await this.ProductRepository.findOneBy({id:id});
+    if(!singleProduct) return "Product already deleted";
+    await this.ProductRepository.delete({id:id});
+    const deletedsingleProduct = await this.ProductRepository.findOneBy({id:id});
 
-    if(singleProduct) throw new HttpException('Product can\'t be deleted', HttpStatus.FAILED_DEPENDENCY);
-    else if(!singleProduct) return "Product already deleted";
-    else return "Deleted Successfully!";
+    if(deletedsingleProduct) throw new HttpException('Product can\'t be deleted', HttpStatus.FAILED_DEPENDENCY);
+    else if(!deletedsingleProduct) return "Deleted Successfully!";
   }
 
 }

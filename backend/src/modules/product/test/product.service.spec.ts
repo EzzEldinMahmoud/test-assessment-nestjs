@@ -110,7 +110,7 @@ describe('The Product service', () => {
             expect(await productService.deleteProductById(singleProduct[0].id)).toBe(
                 "Deleted Successfully!"
                 );
-        } else {
+        } else if(status === "Product already deleted") {
             expect(await productService.deleteProductById(singleProduct[0].id)).toEqual(
                 "Product already deleted"
                 );
