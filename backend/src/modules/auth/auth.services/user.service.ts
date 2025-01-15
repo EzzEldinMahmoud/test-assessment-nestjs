@@ -27,12 +27,12 @@ export class UserService {
         const user = await this.usersRepository.findOneBy({id:id});
         user.password = undefined;
         if(user) return user;
-        else throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+        else HttpStatus.NOT_FOUND;
     }
     async findUserByEmail(email: string): Promise<User> {
         const user = await this.usersRepository.findOneBy({email:email});
         if(user) return user;
-        else throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+        else HttpStatus.NOT_FOUND;
     }
     
     }

@@ -10,11 +10,14 @@ import { AuthModule } from "../auth.module";
 import { UserService } from "./user.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import UserEntity from "../../../Entities/user.entity";
+import { HttpException, HttpStatus } from "@nestjs/common";
 
-let userRANDOM: User = {email:"retryforcompletion@gmail.com",password:"testtest"};
+let userRANDOM: User = {email:"retryforc213ompletion@gmail.com",password:"testtest"};
 
 describe("The AuthService",()=>{
     let authService:AuthService;
+    let userService:UserService;
+
     beforeEach(async () => {
       const module = await Test.createTestingModule({
         imports: [
@@ -48,11 +51,22 @@ describe("The AuthService",()=>{
         ],
       }).compile();
       authService = await module.get<AuthService>(AuthService);
+      userService = await module.get<UserService>(UserService);
+
     })
 
     describe("it should register a new user with User as role",()=>{
-        it("it should return the user info",async ()=>{
+        it("it should return the user info or User with that email already exists",async ()=>{
+            const findUserByEmail = await userService.findUserByEmail(userRANDOM.email);
+
+            if(!findUserByEmail) {
             expect(typeof (await authService.register(userRANDOM))).toEqual("object")
+
+            } else {
+
+            expect(typeof (await authService.register(userRANDOM))).toBe("string")
+
+            }
         });
     });
 

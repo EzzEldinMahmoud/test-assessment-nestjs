@@ -4,7 +4,7 @@ import RegisterUserDTO from '../../../DTO/RegisterUserDTO';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from '../../../interfaces/tokenPayload.interface';
-import { PostgresErrorCode } from '../../../enums/postgresql';
+
 import { UserService } from './user.service';
 import LoginUserDTO from '../../../DTO/loginUserDTO';
 
@@ -15,14 +15,18 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly configService: ConfigService
     ){}
-    async register(user: RegisterUserDTO): Promise<RegisterUserDTO> {
+    async register(user: RegisterUserDTO): Promise<RegisterUserDTO | string> {
         try {
-            const newUser = await this.userService.createUser(user);
-            return newUser;
-        } catch (e) {
-            if (e?.code === PostgresErrorCode.UniqueViolation) {
-                throw new HttpException('User with that email already exists', HttpStatus.BAD_REQUEST);
+            const findUser = await this.userService.findUserByEmail(user.email);
+            if(!findUser) {
+                const newUser = await this.userService.createUser(user);
+                return newUser;
+            } else {
+                return "Email already registered";
             }
+            
+        } catch (e) {
+            
             throw new HttpException('Something went wrong' + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
