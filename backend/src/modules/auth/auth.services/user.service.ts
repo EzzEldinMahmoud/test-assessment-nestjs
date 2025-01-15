@@ -14,7 +14,11 @@ export class UserService {
         private usersRepository: Repository<UserEntity>){}
     
     async createUser(user: RegisterUserDTO): Promise<User> {
-        if(!user.role)  user.role = userRoles.user.toString();
+        if(user.role !== userRoles.admin.toString())  user.role = userRoles.user.toString();
+        else if(user.role === userRoles.admin.toString())  user.role = userRoles.admin.toString();
+        else { user.role = userRoles.user.toString();}
+
+        
         const hashedpassword = await bcrypt.hash(user.password, 10);
         const toDayDateTime = new Date().toISOString();
         const newUser = this.usersRepository.create({ ...user, password: hashedpassword, createdAt: toDayDateTime,updatedAt: toDayDateTime });
